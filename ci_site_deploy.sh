@@ -14,21 +14,29 @@ cp -R `find docsData -type d -name "*.doccarchive"` doc_archives
 
 mkdir docs
 
+export VERSION=0.0.1
+
 for ARCHIVE in doc_archives/*.doccarchive; do
     cmd() {
         echo "$ARCHIVE" | awk -F'.' '{print $1}' | awk -F'/' '{print tolower($2)}'
     }
     ARCHIVE_NAME="$(cmd)"
     echo "Processing Archive: $ARCHIVE"
-    $(xcrun --find docc) process-archive transform-for-static-hosting "$ARCHIVE" --hosting-base-path ModularSlothCreator/$ARCHIVE_NAME --output-path docs/$ARCHIVE_NAME
+    $(xcrun --find docc) process-archive transform-for-static-hosting "$ARCHIVE" --hosting-base-path ModularSlothCreator/$VERSION/$ARCHIVE_NAME --output-path docs/$VERSION/$ARCHIVE_NAME
 done
+
+export DOCC_GITHUB_NAME=AnkurManna
+export DOCC_GITHUB_EMAIL=ankurma@zeta.tech
+export DOCC_GITHUB_USERNAME=AnkurManna
+export DOCC_GITHUB_API_TOKEN=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
+
 
 git config user.name "$DOCC_GITHUB_NAME"
 
 git config user.email "$DOCC_GITHUB_EMAIL"
 
 # Change the GitHub URL to your repository
-git remote set-url origin https://$DOCC_GITHUB_USERNAME:$DOCC_GITHUB_API_TOKEN@github.com/theappbusiness/ModularSlothCreator/
+git remote set-url origin https://$DOCC_GITHUB_USERNAME:$DOCC_GITHUB_API_TOKEN@github.com/ankur4thJan/ModularSlothCreator/
 
 git fetch
 
